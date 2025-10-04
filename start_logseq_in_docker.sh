@@ -6,9 +6,8 @@ docker run -d \
     --name logseq \
     -e DISPLAY_WIDTH=$DISPLAY_WIDTH \
     -e DISPLAY_HEIGHT=$DISPLAY_HEIGHT \
-    -v $(pwd)/Logseq-linux-x64:/Logseq-linux-x64 \
     -v $(pwd)/logseq.conf:/app/conf.d/logseq.conf \
-    -v /mnt/Data500G/:/note_data \
+    -v ./data:/data \
     -p 12314:8080 \
     -p 12315:12315 \
     simonthecoder/logseq_in_docker

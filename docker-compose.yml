@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  logseq:
+    build: .
+    container_name: logseq
+    environment:
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
+    volumes:
+      - ./logseq.conf:/app/conf.d/logseq.conf
+      - ./data/logseq_data:/data # ur data for logseq graphs and basic config
+      - ./data/logseq_state:/home/logseq/.config/Logseq # logseq internal state data (needed so it knows where to find graphs)
+    ports:
+      - "12314:8080"
+      - "12315:12315"
+    restart: unless-stopped

@@ -8,4 +8,17 @@ RUN set -ex; \
 RUN groupadd -g 1000 logseq
 RUN useradd --create-home --no-log-init -u 1000 -g 1000 logseq
 
+RUN apt-get install -y wget jq curl \
+    && LATEST_RELEASE=$(curl -s https://api.github.com/repos/logseq/logseq/releases/latest | jq -r '.assets[] | select(.name | test("Logseq-linux-x64.*\\.AppImage$")) | .browser_download_url') \
+    && wget -O logseq.AppImage "$LATEST_RELEASE" \
+    && chmod +x logseq.AppImage \
+    && ./logseq.AppImage --appimage-extract \
+    && mv squashfs-root /opt/logseq \
+    && rm logseq.AppImage \
+    && apt-get remove -y wget jq curl \
+    && apt-get autoremove -y
+
+COPY run.sh /app/run.sh
+RUN chmod +x /app/run.sh
+
 #USER logseq
